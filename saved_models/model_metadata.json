@@ -1,0 +1,173 @@
+{
+    "model_name": "Myopsia Random Forest Clinical Decision Support Classifier",
+    "version": "1.0.0",
+    "timestamp": "2026-11-17 22:36:40",
+    "target_classes": [
+        "Cataract",
+        "Conjunctivitis",
+        "Diabetic_Retinopathy",
+        "Dry_Eye_Disease",
+        "Glaucoma",
+        "Normal",
+        "Refractive_Error"
+    ],
+    "features": {
+        "all": [
+            "age",
+            "symptom_duration_days",
+            "intraocular_pressure_left",
+            "intraocular_pressure_right",
+            "visual_acuity_left",
+            "visual_acuity_right",
+            "cup_to_disc_ratio_left",
+            "cup_to_disc_ratio_right",
+            "diabetes_history",
+            "hypertension_history",
+            "family_history_eye_disease",
+            "previous_eye_surgery",
+            "previous_eye_injury",
+            "contact_lens_usage",
+            "blurred_vision",
+            "black_spots_floaters",
+            "eye_pain",
+            "eye_redness",
+            "eye_itching",
+            "eye_dryness",
+            "excessive_watering",
+            "double_vision",
+            "flashes_of_light",
+            "light_sensitivity",
+            "difficulty_seeing_at_night",
+            "eye_swelling",
+            "headache",
+            "discharge_from_eye",
+            "foreign_body_sensation",
+            "family_history_glaucoma",
+            "previous_glaucoma_diagnosis",
+            "gender",
+            "occupation",
+            "smoking_history",
+            "symptom_onset",
+            "symptom_severity",
+            "affected_eye"
+        ],
+        "categorical": [
+            "gender",
+            "occupation",
+            "smoking_history",
+            "symptom_onset",
+            "symptom_severity",
+            "affected_eye"
+        ],
+        "binary": [
+            "diabetes_history",
+            "hypertension_history",
+            "family_history_eye_disease",
+            "previous_eye_surgery",
+            "previous_eye_injury",
+            "contact_lens_usage",
+            "blurred_vision",
+            "black_spots_floaters",
+            "eye_pain",
+            "eye_redness",
+            "eye_itching",
+            "eye_dryness",
+            "excessive_watering",
+            "double_vision",
+            "flashes_of_light",
+            "light_sensitivity",
+            "difficulty_seeing_at_night",
+            "eye_swelling",
+            "headache",
+            "discharge_from_eye",
+            "foreign_body_sensation",
+            "family_history_glaucoma",
+            "previous_glaucoma_diagnosis"
+        ],
+        "continuous": [
+            "age",
+            "symptom_duration_days",
+            "intraocular_pressure_left",
+            "intraocular_pressure_right",
+            "visual_acuity_left",
+            "visual_acuity_right",
+            "cup_to_disc_ratio_left",
+            "cup_to_disc_ratio_right"
+        ]
+    },
+    "champion_metrics": {
+        "test_accuracy": 0.955,
+        "test_macro_f1": 0.9481,
+        "test_weighted_f1": 0.955
+    },
+    "per_class_metrics": {
+        "Cataract": {
+            "precision": 0.893048128342246,
+            "recall": 0.9277777777777778,
+            "f1-score": 0.9100817438692098,
+            "support": 180.0
+        },
+        "Conjunctivitis": {
+            "precision": 0.990909090909091,
+            "recall": 0.990909090909091,
+            "f1-score": 0.990909090909091,
+            "support": 110.0
+        },
+        "Diabetic_Retinopathy": {
+            "precision": 0.8571428571428571,
+            "recall": 0.825,
+            "f1-score": 0.8407643312101911,
+            "support": 80.0
+        },
+        "Dry_Eye_Disease": {
+            "precision": 0.9863013698630136,
+            "recall": 0.96,
+            "f1-score": 0.972972972972973,
+            "support": 150.0
+        },
+        "Glaucoma": {
+            "precision": 0.957983193277311,
+            "recall": 0.95,
+            "f1-score": 0.9539748953974896,
+            "support": 120.0
+        },
+        "Normal": {
+            "precision": 0.9895833333333334,
+            "recall": 1.0,
+            "f1-score": 0.9947643979057592,
+            "support": 190.0
+        },
+        "Refractive_Error": {
+            "precision": 0.9763313609467456,
+            "recall": 0.9705882352941176,
+            "f1-score": 0.9734513274336283,
+            "support": 170.0
+        }
+    },
+    "all_models_benchmark": {
+        "Logistic_Regression": {
+            "accuracy": 0.952,
+            "macro_f1": 0.9464,
+            "macro_precision": 0.9467,
+            "macro_recall": 0.9463
+        },
+        "Decision_Tree": {
+            "accuracy": 0.906,
+            "macro_f1": 0.897,
+            "macro_precision": 0.8999,
+            "macro_recall": 0.8955
+        },
+        "Gradient_Boosting": {
+            "accuracy": 0.954,
+            "macro_f1": 0.9481,
+            "macro_precision": 0.9525,
+            "macro_recall": 0.9444
+        },
+        "Random_Forest": {
+            "accuracy": 0.955,
+            "macro_f1": 0.9481,
+            "macro_precision": 0.9502,
+            "macro_recall": 0.9463
+        }
+    }
+}

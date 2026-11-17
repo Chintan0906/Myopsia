@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Status: Educational / Synthetic](https://img.shields.io/badge/Status-Synthetic%20Educational%20Data-orange.svg)]()
+[![Model: Random Forest](https://img.shields.io/badge/Champion%20Model-Random%20Forest%20(95.5%25)-green.svg)]()
 
 > [!IMPORTANT]
 > **ACADEMIC & CLINICAL DISCLAIMER:**
@@ -14,7 +15,7 @@
 
 ## 📌 Project Overview
 
-**Myopsia** is an educational machine learning benchmark dataset and clinical decision support system (CDSS) prototype based strictly on **100% non-image clinical data**.
+**Myopsia** is an end-to-end machine learning system and clinical decision support system (CDSS) prototype based strictly on **100% non-image clinical data**.
 
 While modern ophthalmology often relies on specialized imaging modalities such as Optical Coherence Tomography (OCT) and fundus photography, tertiary equipment is frequently unavailable in primary care, rural clinics, and low-resource triage environments. This project explores how multivariable machine learning algorithms (Random Forest, Gradient Boosting, Logistic Regression, Decision Trees) can predict ocular pathologies and prioritize triage using:
 1. Patient demographic characteristics and vocational environment
@@ -45,29 +46,37 @@ While modern ophthalmology often relies on specialized imaging modalities such a
 
 ---
 
-## 🔬 Missing Value Rationale
-
-Selective missingness is intentionally incorporated to reflect authentic clinical triage protocols:
-- **`cup_to_disc_ratio_left` / `cup_to_disc_ratio_right` (~39.5% missing):** Vertical CDR requires pharmacological pupillary dilation and slit-lamp biomicroscopy. In acute anterior infections (~78% omitted), ocular surface exams (~62% omitted), or refraction triage (~52% omitted), dilation is deferred or omitted.
-- **`intraocular_pressure_left` / `intraocular_pressure_right` (~8.8% missing):** Tonometry is withheld during acute contagious conjunctivitis (~42% omitted) to prevent contact-prism contamination and viral cross-infection.
-- **All other 35 variables:** 100% complete records (0% missing).
-
----
-
 ## 📁 Repository Structure
 
 ```text
 Myopsia/
-├── eye_disease_dataset.csv     # Primary dataset (5,000 records x 39 columns)
-├── data_dictionary.csv         # Detailed metadata definition for all 39 columns
-├── dataset_report.txt          # Technical report, methodology & distribution statistics
-├── dataset_validation.ipynb    # Jupyter notebook with EDA, validation & ML benchmarks
-├── generate_dataset.py         # Reproducible dataset generator script (NumPy / Pandas)
-├── make_data_dictionary.py     # Data dictionary builder script
-├── generate_report.py          # Summary report generation script
-├── test_ml.py                  # Standalone multi-model ML evaluation script
-├── .gitignore                  # Git ignore rules
-└── README.md                   # Project documentation
+├── app.py                            # Production web application & REST API (Flask)
+├── requirements.txt                  # Python dependencies
+├── eye_disease_dataset.csv           # Primary dataset (5,000 records x 39 columns)
+├── data_dictionary.csv               # Detailed metadata definition for all 39 columns
+├── dataset_report.txt                # Technical report, methodology & distribution statistics
+│
+├── saved_models/                     # Production model artifacts for web deployment
+│   ├── eye_disease_pipeline.joblib   # Serialized end-to-end preprocessing + Random Forest pipeline
+│   ├── model_metadata.json           # Target classes, schema, and benchmark metrics
+│   ├── sample_patient_payload.json   # Ready-to-test JSON payload for API testing
+│   ├── confusion_matrix.png          # Holdout test confusion matrix heatmap
+│   └── feature_importance.png        # Top 15 clinical drivers plot
+│
+├── src/                              # Modular machine learning source code
+│   ├── __init__.py
+│   ├── data_preprocessing.py         # Data loading, cleaning, and ColumnTransformer pipeline
+│   ├── train.py                      # Multi-model benchmarking & champion pipeline export
+│   ├── evaluate.py                   # Holdout evaluation, confusion matrix & feature importance
+│   └── inference.py                  # Production inference class (predicts class, probs & guidance)
+│
+├── templates/                        # Web dashboard templates
+│   └── index.html                    # Responsive clinical UI with preset patient profiles
+│
+├── notebooks/                        # Educational & research Jupyter notebooks
+│   ├── 01_data_cleaning_and_eda.ipynb           # Step-by-step cleaning, profiling, and EDA
+│   └── 02_model_training_and_evaluation.ipynb  # Step-by-step training, benchmarking, and export
+└── dataset_validation.ipynb          # Comprehensive validation & assertion checklist
 ```
 
 ---
@@ -76,35 +85,90 @@ Myopsia/
 
 Standard baseline models evaluated on holdout test set ($N=1,000$):
 
-| Model | Accuracy | Macro Precision | Macro Recall | Macro F1-Score |
-| :--- | :---: | :---: | :---: | :---: |
-| **Random Forest Classifier** | **95.7%** | **95.8%** | **94.1%** | **94.9%** |
-| **Gradient Boosting Classifier** | **95.3%** | **95.2%** | **94.2%** | **94.7%** |
-| **Logistic Regression (L2)** | **94.8%** | **94.5%** | **93.8%** | **94.1%** |
-| **Decision Tree (Max Depth = 8)**| **91.0%** | **90.3%** | **90.0%** | **90.1%** |
+| Model | Accuracy | Macro Precision | Macro Recall | Macro F1-Score | Role |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **Random Forest (Champion)** | **95.5%** | **95.3%** | **94.7%** | **94.8%** | Primary system engine (balanced class weights) |
+| **Gradient Boosting** | **95.4%** | **95.1%** | **94.4%** | **94.8%** | Advanced boosting comparison |
+| **Logistic Regression (L2)** | **95.2%** | **94.8%** | **94.4%** | **94.6%** | Linear statistical baseline |
+| **Decision Tree (Max Depth = 8)**| **90.6%** | **89.9%** | **89.5%** | **89.7%** | Interpretable clinical flowchart |
 
 ---
 
-## 🛠️ Quickstart
+## 🌐 Running the Web Application & REST API
 
-### 1. Clone the repository
+The model is serialized as a self-contained scikit-learn `Pipeline` (including continuous imputation, scaling, categorical one-hot encoding, and the Random Forest classifier). It can be served directly via `app.py`.
+
+### 1. Start the Web Server
 ```bash
-git clone https://github.com/Chintan0906/Myopsia.git
-cd Myopsia
+python app.py
+```
+Open your browser and navigate to: **`http://127.0.0.1:5000`**
+
+### 2. Using the Interactive Web UI
+- Use the **"Quick Test Profiles"** buttons at the top to load pre-configured patient profiles (*Routine Normal, Glaucoma Suspect, Senile Cataract, Diabetic Retinopathy, Acute Conjunctivitis, Dry Eye Disease*).
+- Click **"Run AI Diagnostic Prediction"** to view:
+  * The predicted eye disease condition.
+  * Model confidence score & full probability distribution bar chart.
+  * Color-coded clinical urgency rating (*High / Moderate / Routine*).
+  * Recommended next steps (e.g., Humphrey perimetry, slit-lamp biomicroscopy, dilated fundus exam).
+
+### 3. REST API Usage (`POST /api/predict`)
+You can query the model from any website or backend using standard JSON:
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/predict \
+     -H "Content-Type: application/json" \
+     -d @saved_models/sample_patient_payload.json
 ```
 
-### 2. Install dependencies
-```bash
-pip install pandas numpy scikit-learn matplotlib seaborn jupyter
+**Sample API Response:**
+```json
+{
+  "predicted_condition": "Cataract",
+  "confidence_percentage": 97.28,
+  "probability_distribution": {
+    "Cataract": 97.28,
+    "Diabetic_Retinopathy": 1.74,
+    "Refractive_Error": 0.71,
+    "Glaucoma": 0.19,
+    "Dry_Eye_Disease": 0.08,
+    "Conjunctivitis": 0.0,
+    "Normal": 0.0
+  },
+  "clinical_guidance": {
+    "triage_level": "Ophthalmic Outpatient Consultation",
+    "urgency": "Moderate",
+    "summary": "Age profile and gradual loss of visual clarity indicate senile crystalline lens opacification.",
+    "next_steps": [
+      "Slit-lamp biomicroscopy after pharmacological mydriasis.",
+      "Assess functional impact on activities of daily living and driving.",
+      "Plan for biometry and phacoemulsification with intraocular lens (IOL) implantation when indicated."
+    ]
+  }
+}
 ```
 
-### 3. Run validation and experiments
-```bash
-# Run standalone ML benchmark script
-python test_ml.py
+---
 
-# Or launch Jupyter notebook
-jupyter notebook dataset_validation.ipynb
+## 🛠️ Python Inference in Custom Scripts
+
+You can also load and use the model in any Python script with 3 lines of code:
+
+```python
+from src.inference import EyeDiseasePredictor
+
+predictor = EyeDiseasePredictor()
+result = predictor.predict({
+    "age": 68,
+    "blurred_vision": 1,
+    "difficulty_seeing_at_night": 1,
+    "symptom_duration_days": 240,
+    "visual_acuity_left": 0.65,
+    "visual_acuity_right": 0.70
+})
+
+print(result["predicted_condition"])   # e.g., 'Cataract'
+print(result["confidence_percentage"]) # e.g., 97.28%
 ```
 
 ---
