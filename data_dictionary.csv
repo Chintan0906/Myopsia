@@ -1,0 +1,40 @@
+column_name,data_type,description,allowed_values,units
+patient_id,string,Unique synthetic patient alphanumeric identification code,PID-00001 to PID-05000,None
+age,integer,Patient biological age in completed chronological years at examination,18 to 88,Years
+gender,categorical (string),Biological sex / self-reported gender of the patient,"Male, Female",None
+occupation,categorical (string),Primary vocational category / occupational environment,"Office / Desk Worker, Manual Laborer / Construction, Driver / Transport, Healthcare Professional, Teacher / Academic, Farmer / Agricultural, Retired / Elderly, Student, Homemaker, Sales / Retail",None
+diabetes_history,binary (integer),Clinical diagnosis or self-reported history of diabetes mellitus (Type 1 or 2),"0 = No, 1 = Yes",None
+hypertension_history,binary (integer),Documented medical history of systemic arterial hypertension,"0 = No, 1 = Yes",None
+family_history_eye_disease,binary (integer),"Presence of major ocular disease in first-degree biological relatives (e.g., glaucoma, cataract, retinal dystrophy, severe myopia)","0 = No, 1 = Yes",None
+previous_eye_surgery,binary (integer),"Surgical history involving either eye (e.g., cataract extraction, LASIK/PRK, trabeculectomy, retinal laser photocoagulation)","0 = No, 1 = Yes",None
+previous_eye_injury,binary (integer),"History of mechanical, blunt, sharp, or chemical trauma to ocular tissues","0 = No, 1 = Yes",None
+contact_lens_usage,binary (integer),"Current active or regular use of soft, rigid gas permeable, or cosmetic contact lenses","0 = No, 1 = Yes",None
+smoking_history,categorical (string),Lifetime tobacco cigarette smoking classification status,"Never, Former, Current",None
+blurred_vision,binary (integer),"Subjective complaint of decreased visual clarity, fuzziness, or loss of sharpness at near or distance","0 = No, 1 = Yes",None
+black_spots_floaters,binary (integer),"Perception of moving dark specks, cobwebs, strings, or spots drifting across the visual field (vitreous floaters/hemorrhage)","0 = No, 1 = Yes",None
+eye_pain,binary (integer),"Ocular discomfort, deep ache, retrobulbar pain, or sharp stinging sensation","0 = No, 1 = Yes",None
+eye_redness,binary (integer),"Hyperemia of conjunctival, episcleral, or ciliary vasculature ('pink/red eye')","0 = No, 1 = Yes",None
+eye_itching,binary (integer),"Pruritus or tickling sensation of the ocular surface, canthi, or lid margins","0 = No, 1 = Yes",None
+eye_dryness,binary (integer),"Sensation of insufficient tear lubrication, burning, scratchiness, or desiccated ocular surface","0 = No, 1 = Yes",None
+excessive_watering,binary (integer),Epiphora or hyperlacrimation caused by reflex irritation or lacrimal drainage impairment,"0 = No, 1 = Yes",None
+double_vision,binary (integer),Diplopia: seeing two overlapping or separated images of a single object (monocular or binocular),"0 = No, 1 = Yes",None
+flashes_of_light,binary (integer),"Photopsia: perceived streaks, lightning arcs, or flashes of light in the peripheral visual field","0 = No, 1 = Yes",None
+light_sensitivity,binary (integer),Photophobia or glare sensitivity provoked by normal indoor or outdoor light levels,"0 = No, 1 = Yes",None
+difficulty_seeing_at_night,binary (integer),"Nyctalopia: impaired visual contrast, glare, or subnormal dark adaptation in mesopic or scotopic illumination","0 = No, 1 = Yes",None
+eye_swelling,binary (integer),"Edema of periorbital tissues, eyelids, or conjunctival chemosis","0 = No, 1 = Yes",None
+headache,binary (integer),"Cephalea, brow ache, temple pressure, or frontal asthenopic headache associated with eye strain or IOP changes","0 = No, 1 = Yes",None
+discharge_from_eye,binary (integer),"Mucopurulent, purulent, serous, or crusting exudate accumulating on eyelids, lashes, or canthi","0 = No, 1 = Yes",None
+foreign_body_sensation,binary (integer),"Feeling of sand, grit, glass, or an eyelash lodged under the eyelid or on the corneal surface","0 = No, 1 = Yes",None
+symptom_duration_days,integer,Estimated elapsed duration in days from symptom onset to current clinical triage (0 if asymptomatic),0 to 730,Days
+symptom_onset,categorical (string),Temporal nature and speed of symptom manifestation,"Sudden, Gradual, None",None
+symptom_severity,categorical (string),Patient-reported subjective overall intensity of presenting ocular symptoms,"Mild, Moderate, Severe, None",None
+affected_eye,categorical (string),Anatomical laterality of the presenting ocular complaints or signs,"Left, Right, Both, None",None
+intraocular_pressure_left,float,Intraocular pressure (IOP) of the left eye measured via tonometry (Goldmann or non-contact); missing if deferred/omitted,10.0 to 42.0 (or NaN/missing),mmHg
+intraocular_pressure_right,float,Intraocular pressure (IOP) of the right eye measured via tonometry (Goldmann or non-contact); missing if deferred/omitted,10.0 to 42.0 (or NaN/missing),mmHg
+visual_acuity_left,float,Best-measured or presenting visual acuity of the left eye expressed on the standardized LogMAR continuous scale (0.00 = 20/20 standard normal; 1.00 = 20/200; higher values indicate worse acuity),0.00 to 1.20,LogMAR
+visual_acuity_right,float,Best-measured or presenting visual acuity of the right eye expressed on the standardized LogMAR continuous scale (0.00 = 20/20 standard normal; 1.00 = 20/200; higher values indicate worse acuity),0.00 to 1.20,LogMAR
+cup_to_disc_ratio_left,float,Vertical optic nerve head cup-to-disc ratio (CDR) of the left eye evaluated via fundoscopy / slit lamp biomicroscopy; missing if dilated exam not indicated/performed,0.15 to 0.90 (or NaN/missing),Ratio (dimensionless 0 to 1)
+cup_to_disc_ratio_right,float,Vertical optic nerve head cup-to-disc ratio (CDR) of the right eye evaluated via fundoscopy / slit lamp biomicroscopy; missing if dilated exam not indicated/performed,0.15 to 0.90 (or NaN/missing),Ratio (dimensionless 0 to 1)
+family_history_glaucoma,binary (integer),Specific positive family history of open-angle or angle-closure glaucoma in direct biological relatives,"0 = No, 1 = Yes",None
+previous_glaucoma_diagnosis,binary (integer),Prior documented medical diagnosis of glaucoma or ongoing prescription for ocular hypotensive drops,"0 = No, 1 = Yes",None
+eye_disease,categorical (string),Target clinical diagnostic classification assigned based on comprehensive multi-feature synthetic assessment,"Normal, Glaucoma, Cataract, Diabetic_Retinopathy, Conjunctivitis, Dry_Eye_Disease, Refractive_Error",None
